@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Juntar nome e sobrenome</title>
+    <style>
+      body {
+        max-width: 480px;
+        margin: 4rem auto;
+        padding: 0 1rem;
+        font-family: system-ui, sans-serif;
+      }
+
+      label {
+        display: block;
+        margin: 1rem 0;
+      }
+
+      input {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        margin-top: 0.35rem;
+        padding: 0.6rem;
+      }
+
+      button {
+        padding: 0.65rem 1rem;
+      }
+
+      #result {
+        min-height: 1.5rem;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Juntar nome e sobrenome</h1>
+      <form id="name-form">
+        <label>
+          Nome
+          <input name="firstName" autocomplete="given-name" required>
+        </label>
+        <label>
+          Sobrenome
+          <input name="lastName" autocomplete="family-name" required>
+        </label>
+        <button type="submit">Juntar nomes</button>
+      </form>
+      <p id="result" role="status" aria-live="polite"></p>
+    </main>
+    <script>
+      const form = document.querySelector("#name-form");
+      const result = document.querySelector("#result");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        result.textContent = "Enviando...";
+
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch("http://localhost:3000/api/name", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              firstName: formData.get("firstName"),
+              lastName: formData.get("lastName"),
+            }),
+          });
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Não foi possível juntar os nomes.");
+          }
+
+          result.textContent = data.fullName;
+        } catch (error) {
+          result.textContent = error.message || "Não foi possível conectar ao servidor.";
+        }
+      });
+    </script>
+  </body>
+</html>
