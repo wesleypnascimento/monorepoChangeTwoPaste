@@ -40,7 +40,7 @@ class NameHandler(BaseHTTPRequestHandler):
         if not isinstance(data, dict):
             self._send_json(400, {"error": "Envie um objeto com nome e sobrenome."})
             return
-
+        # Validate that the required fields are present and are strings
         first_name = data.get("firstName")
         last_name = data.get("lastName")
         if not isinstance(first_name, str) or not isinstance(last_name, str):
