@@ -46,7 +46,7 @@ class NameHandler(BaseHTTPRequestHandler):
         if not isinstance(first_name, str) or not isinstance(last_name, str):
             self._send_json(400, {"error": "Preencha o nome e o sobrenome."})
             return
-
+        # Strip leading and trailing whitespace from the names
         first_name = first_name.strip()
         last_name = last_name.strip()
         if not first_name or not last_name:
