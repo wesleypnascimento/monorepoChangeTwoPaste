@@ -75,7 +75,7 @@
           if (!response.ok) {
             throw new Error(data.error || "Não foi possível juntar os nomes.");
           }
-
+          // Exibe o nome completo retornado pelo servidor
           result.textContent = data.fullName;
         } catch (error) {
           result.textContent = error.message || "Não foi possível conectar ao servidor.";
