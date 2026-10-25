@@ -36,7 +36,7 @@ class NameHandler(BaseHTTPRequestHandler):
         except (ValueError, json.JSONDecodeError, UnicodeDecodeError):
             self._send_json(400, {"error": "Envie um JSON válido."})
             return
-        # Validate that the data is a dictionary 1
+        # Validate that the data is a dictionary 1 2
         if not isinstance(data, dict):
             self._send_json(400, {"error": "Envie um objeto com nome e sobrenome."})
             return
